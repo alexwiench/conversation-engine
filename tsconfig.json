@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ES2020",
+		"sourceMap": true,
+		"outDir": "dist",
+		"noImplicitAny": true,
+		"allowJs": true
+	},
+	"include": ["src/**/*", "index.ts"],
+	"ts-node": {
+		"esm": true,
+		"swc": true
+	}
+}
