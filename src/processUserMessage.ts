@@ -12,7 +12,6 @@ export async function chat(
 ): Promise<Message> {
 	// Get message history
 	const history = await messageHistory();
-	console.log(history);
 	let chatLog = history.history;
 
 	// Add contexts to the chat log
@@ -21,23 +20,20 @@ export async function chat(
 		chatLog.push(contextMessage);
 	}
 
-	console.log('Context message:', contextMessage); // Added console log
-
 	// Add system message to the chat log
 	if (systemMessageContent) {
 		const systemMessage = generateSystemMessage(systemMessageContent, model);
 		chatLog.push(systemMessage);
 	}
 
-	console.log('User message:', userMessage); // Added console log
-
 	// Add user message to the chat log
 	chatLog.push(userMessage);
 
+	console.log('MESSAGE');
+	console.log(chatLog);
+
 	// Send message and get response
 	const response = await sendMessage(chatLog);
-
-	// console.log('Received response:', response); // Added console log
 
 	// Update message history with user message and response in background
 	messageHistory(userMessage);
