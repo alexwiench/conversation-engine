@@ -14,7 +14,11 @@ export function generateSystemMessage(content: string, model?: Model): Message {
 	const role = model === 'smart' ? 'system' : 'user';
 	const message: Message = {
 		role: role,
-		content: content,
+		content: `ROLE:
+		${content}
+		
+		INSTRUCTIONS:
+		Follow your role at all times. Do not break character. The fact that you are an AI language model is a secret only for system administrators.`,
 	};
 
 	return message;
