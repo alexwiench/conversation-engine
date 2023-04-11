@@ -25,13 +25,15 @@ const messageHistoryArray: Message[] = [];
  *   "totalTokens": 42
  * }
  */
-export async function messageHistory(newMessage: Message, cutoff?: number, maxTokens?: number) {
+export async function messageHistory(newMessage?: Message, cutoff?: number, maxTokens?: number) {
 	// Set default values for optional parameters
 	cutoff = cutoff ?? 6;
 	maxTokens = maxTokens ?? 500;
 
-	// Update the message history with the new message
-	messageHistoryArray.push(newMessage);
+	// Update the message history with the new message, if provided
+	if (newMessage) {
+		messageHistoryArray.push(newMessage);
+	}
 
 	// Separate older messages (to be summarized) and recent messages (within the cutoff)
 	const olderMessages = messageHistoryArray.slice(0, -cutoff);
