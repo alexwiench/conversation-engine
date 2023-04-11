@@ -18,7 +18,7 @@ type Model = 'smart' | 'fast';
  * ]
  * @param model The model to use for generating the response ('smart' or 'fast'). Default is 'fast'.
  * @param maxTokens The maximum number of tokens for the generated response. Default is `150`.
- * @param temperature The sampling temperature to use for generating the response. Must be between 0.0 and 2.0. Default is `0.0`.
+ * @param temperature The sampling temperature to use for generating the response. Must be between 0.0 and 2.0. Default is `0.7`.
  * @param topP The top_p value to use for nucleus sampling. Default is `1`.
  * @returns A Promise that resolves to the generated message object.
  * @example
@@ -50,7 +50,7 @@ export async function sendMessage(
 
 	// Set default values for optional parameters
 	maxTokens = maxTokens ?? 500;
-	temperature = temperature ?? 0.0;
+	temperature = temperature ?? 0.7;
 	topP = topP ?? 1;
 
 	const completion = await openai.createChatCompletion({
