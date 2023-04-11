@@ -1,32 +1,65 @@
 import { Message } from './types.js';
-import { messageHistory } from './lib/messageHistory.js';
+import { chat } from './processUserMessage.js';
+import readline from 'readline';
 
-// Sample messages
-const message1: Message = { role: 'user', content: 'Hello, assistant!' };
-const message2: Message = { role: 'assistant', content: 'Hello, how can I help you?' };
-const message3: Message = { role: 'user', content: 'Tell me a joke.' };
-const message4: Message = {
-	role: 'assistant',
-	content: 'Why did the chicken cross the road? To get to the other side!',
-};
-const message5: Message = { role: 'user', content: "That's an old one!" };
-const message6: Message = {
-	role: 'assistant',
-	content: "I'll try to come up with something more original next time!",
-};
+// const rl = readline.createInterface({
+// 	input: process.stdin,
+// 	output: process.stdout,
+// });
 
-// Test the messageHistory function with the sample messages
-const result1 = await messageHistory(message1);
-const result2 = await messageHistory(message2);
-const result3 = await messageHistory(message3);
-const result4 = await messageHistory(message4);
-const result5 = await messageHistory(message5, 3); // Customize the cutoff value for this test
-const result6 = await messageHistory(message6, 3); // Customize the cutoff and maxTokens values for this test
+// async function main() {
+// 	console.log('Welcome to the CLI Chatbot! Type your message and press Enter to chat.');
 
-// Log the output
-console.log(result1);
-console.log(result2);
-console.log(result3);
-console.log(result4);
-console.log(result5);
-console.log(result6);
+// 	rl.setPrompt('> ');
+// 	rl.prompt();
+
+// 	rl.on('line', async (input) => {
+// 		const userMessage: Message = { role: 'user', content: input };
+
+// 		try {
+// 			const response = await chat(userMessage, undefined, 'You are a good assistant');
+// 			console.log('Assistant:', response.content);
+// 		} catch (error) {
+// 			console.error('Error:', error.message);
+// 		}
+
+// 		rl.prompt();
+// 	});
+
+// 	rl.on('close', () => {
+// 		console.log('Goodbye!');
+// 	});
+// }
+
+// main();
+
+async function testChat() {
+	const userMessage: Message = {
+		role: 'user',
+		content: 'Hello, how are you?',
+	};
+
+	const contexts = ['talk to me like a 1920s villain'];
+
+	const systemMessageContent = 'The assistant is designed to help you with general questions.';
+
+	const model = 'fast';
+
+	try {
+		let response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+		response = await chat(userMessage, contexts, systemMessageContent, model);
+
+		console.log('Chatbot response:', response);
+	} catch (error) {
+		console.error('Error during testChat:', error);
+	}
+}
+
+testChat();
