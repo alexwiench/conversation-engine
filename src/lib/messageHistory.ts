@@ -5,6 +5,8 @@ import { countTokens } from './tokenCounter.js';
 
 // The messageHistoryArray stores the message history across function calls
 const messageHistoryArray: Message[] = [];
+// The previousSummary stores the last summarized message
+let previousSummary: Message | null = null;
 
 /**
  * Updates the message history with a new message and returns a combined chat history with the total token count.
@@ -25,14 +27,15 @@ const messageHistoryArray: Message[] = [];
  *   "totalTokens": 42
  * }
  */
-export async function messageHistory(newMessage?: Message, cutoff?: number, maxTokens?: number) {
+
+export async function messageHistory(newMessages?: Message[], cutoff?: number, maxTokens?: number) {
 	// Set default values for optional parameters
 	cutoff = cutoff ?? 6;
 	maxTokens = maxTokens ?? 500;
 
 	// Update the message history with the new message, if provided
-	if (newMessage) {
-		messageHistoryArray.push(newMessage);
+	if (newMessages) {
+		messageHistoryArray.push(...newMessages);
 	}
 
 	// Separate older messages (to be summarized) and recent messages (within the cutoff)
@@ -44,7 +47,9 @@ export async function messageHistory(newMessage?: Message, cutoff?: number, maxT
 
 	// Summarize the older messages if there are any
 	if (olderMessages.length > 0) {
-		summary = await summarizeMessages(olderMessages);
+		const newestOldMessage = olderMessages[olderMessages.length - 1];
+		summary = await summarizeMessages([newestOldMessage], previousSummary);
+		previousSummary = summary.message; // Store the new summary
 		combinedHistory = [summary.message, ...recentMessages];
 	} else {
 		combinedHistory = recentMessages;

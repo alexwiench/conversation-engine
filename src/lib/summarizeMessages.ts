@@ -17,14 +17,23 @@ import { countTokens } from './tokenCounter.js';
  *   "tokens": 25
  * }
  */
-export async function summarizeMessages(messages: Message[], maxTokens?: number) {
+export async function summarizeMessages(
+	messages: Message[],
+	previousSummary?: Message,
+	maxTokens?: number
+) {
 	// Concatenate messages into a single string
 	const concatenatedMessages = messages
-		.map((message) => `${message.role}: ${message.content}`)
+		.map((message) => `${roleToPronoun(message.role)}: ${message.content}`)
 		.join('\n');
 
+	// Include the previous summary if available
+	const previousSummaryContent = previousSummary
+		? `Previous summary:\n${previousSummary.content}\n\n`
+		: '';
+
 	// Send the summarization request to the AI model
-	const command = `Please summarize the following conversation. Messages:\n\n${concatenatedMessages}`;
+	const command = `Succinctly summarize the following chat log. \n PREVIOUS SUMMARY: ${previousSummaryContent} NEW MESSAGE:\n\n${concatenatedMessages}`;
 	const response = await sendMessage([{ role: 'user', content: `${command}` }], 'fast');
 
 	// Create the summary message object
@@ -40,4 +49,17 @@ export async function summarizeMessages(messages: Message[], maxTokens?: number)
 		message: summary,
 		tokens: tokens,
 	};
+}
+
+function roleToPronoun(role: 'system' | 'user' | 'assistant'): string {
+	switch (role) {
+		case 'system':
+			return 'ME';
+		case 'user':
+			return 'THEM';
+		case 'assistant':
+			return 'ME';
+		default:
+			return 'THEM';
+	}
 }

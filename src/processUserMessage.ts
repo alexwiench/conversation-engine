@@ -36,8 +36,7 @@ export async function chat(
 	const response = await sendMessage(chatLog);
 
 	// Update message history with user message and response in background
-	messageHistory(userMessage);
-	messageHistory(response);
+	messageHistory([userMessage, response]);
 
 	return response;
 }
