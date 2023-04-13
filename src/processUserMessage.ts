@@ -3,13 +3,21 @@ import { updateAndGetMessageHistory } from './lib/manageMessageHistory.js';
 import { createContextFromStrings } from './lib/createContextMessage.js';
 import { createSystemMessage } from './lib/createSystemMessage.js';
 import { sendMessage } from './lib/sendMessage.js';
+import { getChatConfig } from './config.js';
 
 export async function chat(
 	userMessage: Message,
-	contexts?: string[],
-	systemMessageContent?: string,
-	modelName?: ModelName
+	contexts: string[] = [],
+	systemMessageContent: string = ''
 ): Promise<Message> {
+	const {
+		modelSelection,
+		historyLength,
+		historySummarizationModel,
+		streamResponse,
+		messageHistory,
+	} = getChatConfig();
+
 	// Get message history
 	const history = await updateAndGetMessageHistory();
 	let chatLog = history.history;
@@ -22,7 +30,7 @@ export async function chat(
 
 	// Add system message to the chat log
 	if (systemMessageContent) {
-		const systemMessage = createSystemMessage(systemMessageContent, modelName);
+		const systemMessage = createSystemMessage(systemMessageContent, modelSelection);
 		chatLog.push(systemMessage);
 	}
 

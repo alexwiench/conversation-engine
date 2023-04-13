@@ -1,6 +1,12 @@
 // src/config.ts
-import dotenv from 'dotenv';
+import { ChatConfiguration } from './types.js';
 
-dotenv.config();
+let chatConfig: ChatConfiguration;
 
-export const API_KEY = process.env.OPENAI_API_KEY || '';
+export function configureChat(config: ChatConfiguration) {
+	chatConfig = config;
+}
+
+export function getChatConfig() {
+	return chatConfig;
+}
