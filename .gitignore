@@ -1,3 +1,5 @@
 .env
 /node_modules
 /dist
+test.sh
+test2.sh
