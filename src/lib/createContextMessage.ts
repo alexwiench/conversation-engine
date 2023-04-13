@@ -7,7 +7,7 @@ import { Message } from '../types.js';
  * @returns A Message object containing the concatenated context strings.
  */
 
-export function createContextMessage(contexts?: string[]): Message {
+export function createContextFromStrings(contexts?: string[]): Message {
 	if (contexts) {
 		const delimiter = '\n';
 		const content = contexts.join(delimiter);

@@ -1,6 +1,7 @@
 import { Message } from './types.js';
 import { chat } from './processUserMessage.js';
 import readline from 'readline';
+import { updateAndGetMessageHistory } from './lib/manageMessageHistory.js';
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -19,6 +20,7 @@ async function main() {
 		try {
 			const response = await chat(userMessage, [''], 'You are a helpful AI Assistant.');
 			console.log('Assistant:', response.content);
+			// updateAndGetMessageHistory([userMessage, response]);
 		} catch (error) {
 			console.error('Error:', error.message);
 		}

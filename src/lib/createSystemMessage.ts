@@ -1,6 +1,4 @@
-import { Message } from '../types.js';
-
-type Model = 'fast' | 'smart';
+import { Message, ModelName } from '../types.js';
 
 /**
  * Generates a Message object with the given content and role based on the model.
@@ -10,8 +8,8 @@ type Model = 'fast' | 'smart';
  * @returns A Message object with the appropriate role and content.
  */
 
-export function generateSystemMessage(content: string, model?: Model): Message {
-	const role = model === 'smart' ? 'system' : 'user';
+export function createSystemMessage(content: string, model?: ModelName): Message {
+	const role = model !== ModelName.GPT_3_5_TURBO ? 'system' : 'user';
 	const message: Message = {
 		role: role,
 		content: `ROLE:

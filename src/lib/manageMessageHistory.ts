@@ -1,12 +1,12 @@
 // messageHistory.ts
-import { Message } from '../types.js';
-import { summarizeMessages } from './summarizeMessages.js';
-import { countTokens } from './tokenCounter.js';
+import { Message, ModelName } from '../types.js';
+import { summarizeChatMessages } from './summarizeChatMessages.js';
+import { countTokensInMessages } from './countTokensInMessages.js';
 
 // The messageHistoryArray stores the message history across function calls
 const messageHistoryArray: Message[] = [];
 // The previousSummary stores the last summarized message
-let previousSummary: Message | null = null;
+let previousSummary: Message = { role: 'user', content: '' };
 
 /**
  * Updates the message history with a new message and returns a combined chat history with the total token count.
@@ -28,14 +28,17 @@ let previousSummary: Message | null = null;
  * }
  */
 
-export async function messageHistory(newMessages?: Message[], cutoff?: number, maxTokens?: number) {
-	// Set default values for optional parameters
-	cutoff = cutoff ?? 6;
-	maxTokens = maxTokens ?? 500;
+export async function updateAndGetMessageHistory(
+	newMessages?: Message[],
+	cutoff: number = 6,
+	maxTokens: number = 500
+) {
+	let isNewMessage = false;
 
 	// Update the message history with the new message, if provided
 	if (newMessages) {
 		messageHistoryArray.push(...newMessages);
+		isNewMessage = true;
 	}
 
 	// Separate older messages (to be summarized) and recent messages (within the cutoff)
@@ -46,16 +49,16 @@ export async function messageHistory(newMessages?: Message[], cutoff?: number, m
 	let combinedHistory: Message[];
 
 	// Summarize the older messages if there are any
-	if (olderMessages.length > 0) {
+	if (olderMessages.length > 0 && isNewMessage) {
 		const newestOldMessage = olderMessages[olderMessages.length - 1];
-		summary = await summarizeMessages([newestOldMessage], previousSummary);
+		summary = await summarizeChatMessages([newestOldMessage], previousSummary);
 		previousSummary = summary.message; // Store the new summary
 		combinedHistory = [summary.message, ...recentMessages];
 	} else {
-		combinedHistory = recentMessages;
+		combinedHistory = [previousSummary, ...recentMessages];
 	}
 
-	let totalTokens = countTokens(combinedHistory, 'fast'); // Use 'fast' or 'smart' based on your preference
+	let totalTokens = countTokensInMessages(combinedHistory, ModelName.GPT_3_5_TURBO);
 
 	return {
 		history: combinedHistory,

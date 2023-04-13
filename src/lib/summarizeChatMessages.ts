@@ -1,8 +1,6 @@
-// summarizeMessages.ts
-
-import { Message } from '../types.js';
+import { Message, ModelName } from '../types.js';
 import { sendMessage } from './sendMessage.js';
-import { countTokens } from './tokenCounter.js';
+import { countTokensInMessages } from './countTokensInMessages.js';
 
 /**
  * Summarizes the input messages using the AI model and returns a single message object with the summary and token count.
@@ -17,7 +15,7 @@ import { countTokens } from './tokenCounter.js';
  *   "tokens": 25
  * }
  */
-export async function summarizeMessages(
+export async function summarizeChatMessages(
 	messages: Message[],
 	previousSummary?: Message,
 	maxTokens?: number
@@ -34,7 +32,10 @@ export async function summarizeMessages(
 
 	// Send the summarization request to the AI model
 	const command = `Succinctly summarize the following chat log. \n PREVIOUS SUMMARY: ${previousSummaryContent} NEW MESSAGE:\n\n${concatenatedMessages}`;
-	const response = await sendMessage([{ role: 'user', content: `${command}` }], 'fast');
+	const response = await sendMessage(
+		[{ role: 'user', content: `${command}` }],
+		ModelName.GPT_3_5_TURBO
+	);
 
 	// Create the summary message object
 	const summary: Message = {
@@ -43,7 +44,7 @@ export async function summarizeMessages(
 	};
 
 	// Calculate the token count
-	const tokens = countTokens([summary], 'fast');
+	const tokens = countTokensInMessages([summary], ModelName.GPT_3_5_TURBO);
 
 	return {
 		message: summary,

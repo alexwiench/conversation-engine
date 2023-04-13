@@ -1,9 +1,7 @@
 // sendMessage.ts
 
-import { openai } from './openaiClient.js';
-import { Message } from '../types.js';
-
-type Model = 'smart' | 'fast';
+import { openai } from './configureOpenaiClient.js';
+import { Message, ModelName } from '../types.js';
 
 /**
  * Handles sending messages with a specified model and returns the AI-generated response message.
@@ -30,31 +28,13 @@ type Model = 'smart' | 'fast';
  */
 export async function sendMessage(
 	messagesArray: Message[],
-	model?: Model,
-	maxTokens?: number,
-	temperature?: number,
-	topP?: number
+	modelName: ModelName = ModelName.GPT_3_5_TURBO,
+	maxTokens: number = 500,
+	temperature: number = 0.7,
+	topP: number = 1
 ): Promise<Message> {
-	let modelSelection: string;
-
-	// Default model
-	model = model ?? 'fast';
-
-	if (model === 'smart') {
-		modelSelection = 'gpt-4';
-	} else if (model === 'fast') {
-		modelSelection = 'gpt-3.5-turbo';
-	} else {
-		modelSelection = 'gpt-3.5-turbo';
-	}
-
-	// Set default values for optional parameters
-	maxTokens = maxTokens ?? 500;
-	temperature = temperature ?? 0.7;
-	topP = topP ?? 1;
-
 	const completion = await openai.createChatCompletion({
-		model: modelSelection,
+		model: modelName,
 		messages: messagesArray,
 		max_tokens: maxTokens,
 		temperature: temperature,

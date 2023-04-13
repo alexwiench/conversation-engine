@@ -1,8 +1,5 @@
-// tokenCounter.ts
-
 import { encoding_for_model, TiktokenModel } from '@dqbd/tiktoken';
-import { Message } from '../types.js';
-
+import { Message, ModelName } from '../types.js';
 /**
  * Counts the number of tokens in a given text string using the specified AI model's tokenizer.
  *
@@ -11,20 +8,10 @@ import { Message } from '../types.js';
  * @returns The number of tokens in the text.
  */
 
-type Model = 'smart' | 'fast';
-
-export function countTokens(messages: Message[], modelName: Model): number {
+export function countTokensInMessages(messages: Message[], modelName: ModelName): number {
 	let modelSelection: TiktokenModel;
 
-	if (modelName === 'smart') {
-		modelSelection = 'gpt-4';
-	} else if (modelName === 'fast') {
-		modelSelection = 'gpt-3.5-turbo';
-	} else {
-		modelSelection = 'gpt-3.5-turbo';
-	}
-
-	const encoder = encoding_for_model(modelSelection);
+	const encoder = encoding_for_model(modelName);
 
 	const tokenCount = messages.reduce((acc, message) => {
 		const tokens = encoder.encode(message.content);
