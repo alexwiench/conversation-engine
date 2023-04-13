@@ -9,8 +9,6 @@ import { Message, ModelName } from '../types.js';
  */
 
 export function countTokensInMessages(messages: Message[], modelName: ModelName): number {
-	let modelSelection: TiktokenModel;
-
 	const encoder = encoding_for_model(modelName);
 
 	const tokenCount = messages.reduce((acc, message) => {

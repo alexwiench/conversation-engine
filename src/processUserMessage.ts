@@ -14,7 +14,6 @@ export async function chat(
 	const history = await updateAndGetMessageHistory();
 	let chatLog = history.history;
 
-	console.log(chatLog);
 	// Add contexts to the chat log
 	const contextMessage = createContextFromStrings(contexts);
 	if (contextMessage.content) {
