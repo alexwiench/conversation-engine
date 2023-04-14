@@ -127,18 +127,18 @@ A chat configuration object containing various settings.
 
 Optional settings for the OpenAI API. [Check out their documentation.](https://platform.openai.com/docs/api-reference/chat/create)
 
-| Property           | Type                          | Description                                                        |
-| :----------------- | :---------------------------- | :----------------------------------------------------------------- |
-| `temperature`      | `number`                      | The temperature for generating responses                           |
-| `topP`             | `number`                      | The top_p value for nucleus sampling                               |
-| `n`                | `number`                      | The number of responses to generate                                |
-| `stream (broken)`  | `boolean`                     | Whether to use streaming mode. (Streaming does not work currently) |
-| `stop`             | `string \| string[]`          | A string or array of strings to stop the response generation       |
-| `maxTokens`        | `number`                      | The maximum number of tokens for the generated response            |
-| `presencePenalty`  | `number`                      | The presence penalty for the generated response                    |
-| `frequencyPenalty` | `number`                      | The frequency penalty for the generated response                   |
-| `logitBias`        | `{ [token: string]: number }` | An object of token strings and their biases                        |
-| `user`             | `string`                      | A user identifier to associate with this chat completion           |
+| Property           | Type                          | Description                                                            |
+| :----------------- | :---------------------------- | :--------------------------------------------------------------------- |
+| `temperature`      | `number`                      | The temperature for generating responses                               |
+| `topP`             | `number`                      | The top_p value for nucleus sampling                                   |
+| `n`                | `number`                      | The number of responses to generate                                    |
+| `stream (broken)`  | `boolean`                     | Whether to use streaming mode. **(Streaming does not work currently)** |
+| `stop`             | `string \| string[]`          | A string or array of strings to stop the response generation           |
+| `maxTokens`        | `number`                      | The maximum number of tokens for the generated response                |
+| `presencePenalty`  | `number`                      | The presence penalty for the generated response                        |
+| `frequencyPenalty` | `number`                      | The frequency penalty for the generated response                       |
+| `logitBias`        | `{ [token: string]: number }` | An object of token strings and their biases                            |
+| `user`             | `string`                      | A user identifier to associate with this chat completion               |
 
 ## FAQ
 
