@@ -1,11 +1,4 @@
----
-aliases:
-tags:
-date created: Friday, April 14th 2023, 7:32:22 am
-date modified: Friday, April 14th 2023, 8:23:51 am
----
-
-# # Conversation Engine
+# Conversation Engine
 
 A powerful wrapper around the OpenAI API, providing additional features and making it easier to interact with AI models. Seamlessly chat with your AI assistant, include context strings, and manage conversation history.
 
