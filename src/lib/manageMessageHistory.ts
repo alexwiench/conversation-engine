@@ -1,7 +1,5 @@
-// messageHistory.ts
 import { Message, ModelName } from '../types.js';
 import { summarizeChatMessages } from './summarizeChatMessages.js';
-import { countTokensInMessages } from './countTokensInMessages.js';
 
 // The messageHistoryArray stores the message history across function calls
 const messageHistoryArray: Message[] = [];
@@ -9,29 +7,19 @@ const messageHistoryArray: Message[] = [];
 let previousSummary: Message = { role: 'user', content: '' };
 
 /**
- * Updates the message history with a new message and returns a combined chat history with the total token count.
+ * Updates the message history with new messages and returns the combined chat history.
  * The chat history consists of a summary of older messages and the recent messages within the cutoff.
  *
- * @param newMessage The new message to add to the history.
- * @param cutoff The number of recent messages to include without summarization.
- * @param maxTokens The maximum number of tokens allowed for the summarized history.
- * @returns A Promise that resolves to an object containing the combined history (summary and recent messages) and the total token count.
- * @example
- * // Example of the returned object
- * {
- *   "history": [
- *     { "role": "user", "content": "Previously summarized content..." },
- *     { "role": "assistant", "content": "Recent message 1" },
- *     { "role": "user", "content": "Recent message 2" }
- *   ],
- *   "totalTokens": 42
- * }
+ * @param {Message[]|undefined} newMessages - The new messages to add to the history.
+ * @param {number} cutoff - Optional. The number of recent messages to include without summarization. Default is 6.
+ * @param {ModelName} historySummarizationModel - Optional. The AI model to use for history summarization. Default is ModelName.GPT_3_5_TURBO.
+ * @returns {Promise<Message[]>} - A Promise that resolves to the combined history (summary and recent messages).
  */
 
 export async function updateAndGetMessageHistory(
 	newMessages?: Message[],
 	cutoff: number = 6,
-	maxTokens: number = 500
+	historySummarizationModel: ModelName = ModelName.GPT_3_5_TURBO
 ) {
 	let isNewMessage = false;
 
@@ -51,17 +39,16 @@ export async function updateAndGetMessageHistory(
 	// Summarize the older messages if there are any
 	if (olderMessages.length > 0 && isNewMessage) {
 		const newestOldMessage = olderMessages[olderMessages.length - 1];
-		summary = await summarizeChatMessages([newestOldMessage], previousSummary);
-		previousSummary = summary.message; // Store the new summary
-		combinedHistory = [summary.message, ...recentMessages];
+		summary = await summarizeChatMessages(
+			[newestOldMessage],
+			previousSummary,
+			historySummarizationModel
+		);
+		previousSummary = summary; // Store the new summary
+		combinedHistory = [summary, ...recentMessages];
 	} else {
 		combinedHistory = [previousSummary, ...recentMessages];
 	}
 
-	let totalTokens = countTokensInMessages(combinedHistory, ModelName.GPT_3_5_TURBO);
-
-	return {
-		history: combinedHistory,
-		totalTokens: totalTokens,
-	};
+	return combinedHistory;
 }

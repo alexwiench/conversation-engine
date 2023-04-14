@@ -1,7 +1,17 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { getChatConfig } from '../config.js';
 
-// Configure the OpenAI API client
-const { apiKey } = getChatConfig();
-const configuration = new Configuration({ apiKey: apiKey });
-export const openai = new OpenAIApi(configuration);
+let openai: OpenAIApi | null = null;
+
+export function configureOpenaiClient(apiKey: string) {
+	const configuration = new Configuration({ apiKey });
+	openai = new OpenAIApi(configuration);
+}
+
+export function getOpenaiClient() {
+	if (!openai) {
+		throw new Error(
+			'OpenAI client is not configured yet. Please call configureOpenaiClient(apiKey) first.'
+		);
+	}
+	return openai;
+}
