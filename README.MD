@@ -15,7 +15,7 @@ Give it a message and it will handle the rest.
 
 ## Installation
 
-Install my-project with npm
+Install conversation-engine with npm
 
 ```bash
 npm install conversation-engine
