@@ -1,7 +1,7 @@
 {
 	"name": "conversation-engine",
 	"version": "0.0.1",
-	"description": "A JavaScript library that helps you manage conversations with AI chatbots. It provides a set of functions for handling chat history, context injection, system instructions, and summary functions.",
+	"description": "A powerful wrapper around the OpenAI API, providing additional features and making it easier to interact with AI models. Seamlessly chat with your AI assistant, include context strings, and manage conversation history.",
 	"main": "dist/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
