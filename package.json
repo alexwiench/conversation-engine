@@ -1,6 +1,6 @@
 {
 	"name": "conversation-engine",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A powerful wrapper around the OpenAI API, providing additional features and making it easier to interact with AI models. Seamlessly chat with your AI assistant, include context strings, and manage conversation history.",
 	"main": "dist/index.js",
 	"scripts": {
