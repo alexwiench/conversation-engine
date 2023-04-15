@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"moduleResolution": "NodeNext",
 		"target": "ES6",
-		"module": "CommonJS",
+		"module": "ES2020",
 		"sourceMap": true,
 		"outDir": "dist",
 		"noImplicitAny": true,
