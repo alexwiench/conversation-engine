@@ -1,0 +1,9 @@
+src/
+node_modules/
+dist/**/*.map
+.gitignore
+.tsconfig.json
+test.sh
+test2.sh
+testchatbots.ts
+testchatbot.ts
