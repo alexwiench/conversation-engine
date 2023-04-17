@@ -1,12 +1,11 @@
 # Conversation Engine
 
-A powerful wrapper around the OpenAI API, providing additional features and making it easier to interact with AI models. Seamlessly chat with your AI assistant, include context strings, and manage conversation history.
+A powerful wrapper around the OpenAI API, providing additional features and making it easier to interact with conversational models. Seamlessly chat with your AI assistant, include context strings, and manage conversation history.
 
 Give it a message and it will handle the rest.
 
 ## Features
 
-- Easy-to-use API for chatting with AI models
 - Automatically handle chat history and context injection
 - Built-in support for summarizing long conversations
 - Customizable system instructions for controlling AI behavior
